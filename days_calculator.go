@@ -37,7 +37,7 @@ func whenYearRouteHandler(context *gin.Context) {
 
 	if err != nil {
 		log.Println("Error parse date: ", err)
-		context.String(http.StatusBadRequest, "Некорректная дата")
+		context.String(http.StatusBadRequest, "invalid date")
 		return
 	}
 
@@ -49,11 +49,11 @@ func whenYearRouteHandler(context *gin.Context) {
 	daysPassed := currentTime.Sub(parsedDate).Hours() / 24
 
 	if currentYear == yearAsInt && currentMonth == parsedDate.Month() && currentTime.Day() == parsedDate.Day() {
-		context.String(http.StatusOK, "Сегодня 1 января")
+		context.String(http.StatusOK, "Today 1st january")
 	} else if currentYear < yearAsInt {
-		context.String(http.StatusOK, "До 1 января "+year+" года осталось "+strconv.Itoa(int(daysUntil))+" дней")
+		context.String(http.StatusOK, "Days left: "+strconv.Itoa(int(daysUntil)))
 	} else {
-		context.String(http.StatusOK, "С 1 января "+year+" года прошло "+strconv.Itoa(int(math.Abs(daysPassed)))+" дней")
+		context.String(http.StatusOK, "Days gone: "+strconv.Itoa(int(math.Abs(daysPassed))))
 	}
 
 }
