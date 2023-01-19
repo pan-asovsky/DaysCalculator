@@ -12,11 +12,21 @@ import (
 func main() {
 
 	router := gin.Default()
+	router.Use(XPingHeaderMiddleware())
 	router.GET("/when/:year", whenYearRouteHandler)
 
 	err := router.Run()
 	if err != nil {
 		log.Fatalln("Fatal error at router.Run(): ", err)
+	}
+}
+
+func XPingHeaderMiddleware() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		if ping := context.GetHeader("X-PING"); ping == "ping" {
+			context.Header("X-PONG", "pong")
+		}
+		context.Next()
 	}
 }
 
