@@ -1,8 +1,9 @@
-package main
+package test
 
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/assert/v2"
+	"github.com/pan-asovsky/DaysCalculator/pkg/server"
 	"net/http"
 	"net/http/httptest"
 	conv "strconv"
@@ -15,7 +16,7 @@ func TestXPingHeaderMiddleware(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	router := gin.New()
-	router.Use(XPingHeaderMiddleware())
+	router.Use(server.XPingHeaderMiddleware())
 
 	req, _ := http.NewRequest("GET", "/test", nil)
 	req.Header.Add("X-PING", "ping")
@@ -40,7 +41,7 @@ func TestWhenYearRouteHandler(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	router := gin.New()
-	router.GET("/when/:year", WhenYearRouteHandler)
+	router.GET("/when/:year", server.WhenYearRouteHandler)
 
 	currentTime := time.Now()
 	currentYear := currentTime.Year()

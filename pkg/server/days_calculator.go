@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"github.com/gin-gonic/gin"
@@ -8,27 +8,6 @@ import (
 	"strconv"
 	"time"
 )
-
-func main() {
-
-	router := gin.Default()
-	router.Use(XPingHeaderMiddleware())
-	router.GET("/when/:year", WhenYearRouteHandler)
-
-	err := router.Run()
-	if err != nil {
-		log.Fatalln("Fatal error at router.Run():", err)
-	}
-}
-
-func XPingHeaderMiddleware() gin.HandlerFunc {
-	return func(context *gin.Context) {
-		if ping := context.GetHeader("X-PING"); ping == "ping" {
-			context.Header("X-PONG", "pong")
-		}
-		context.Next()
-	}
-}
 
 func WhenYearRouteHandler(context *gin.Context) {
 
@@ -58,13 +37,13 @@ func WhenYearRouteHandler(context *gin.Context) {
 	if currentYear == yearAsInt && currentTime.Month() == parsedDate.Month() && currentTime.Day() == parsedDate.Day() {
 		context.String(http.StatusOK, "Today 1st january")
 	} else if currentYear < yearAsInt {
-		context.String(http.StatusOK, "Days left: "+Float64ToString(daysUntil))
+		context.String(http.StatusOK, "Days left: "+float64ToString(daysUntil))
 	} else {
-		context.String(http.StatusOK, "Days gone: "+Float64ToString(math.Abs(daysPassed)))
+		context.String(http.StatusOK, "Days gone: "+float64ToString(math.Abs(daysPassed)))
 	}
 
 }
 
-func Float64ToString(num float64) string {
+func float64ToString(num float64) string {
 	return strconv.Itoa(int(num))
 }

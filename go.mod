@@ -1,5 +1,4 @@
-module qsoft-test-task
-
+module github.com/pan-asovsky/DaysCalculator
 go 1.19
 
 require (
