@@ -13,11 +13,11 @@ func main() {
 
 	router := gin.Default()
 	router.Use(XPingHeaderMiddleware())
-	router.GET("/when/:year", whenYearRouteHandler)
+	router.GET("/when/:year", WhenYearRouteHandler)
 
 	err := router.Run()
 	if err != nil {
-		log.Fatalln("Fatal error at router.Run(): ", err)
+		log.Fatalln("Fatal error at router.Run():", err)
 	}
 }
 
@@ -30,13 +30,13 @@ func XPingHeaderMiddleware() gin.HandlerFunc {
 	}
 }
 
-func whenYearRouteHandler(context *gin.Context) {
+func WhenYearRouteHandler(context *gin.Context) {
 
 	year := context.Param("year")
 	yearAsInt, err := strconv.Atoi(year)
 
 	if err != nil {
-		log.Println("Error converting string to int: ", err)
+		log.Println("Error converting string to int:", err)
 	}
 
 	dateString := "01/01/" + year
@@ -44,8 +44,8 @@ func whenYearRouteHandler(context *gin.Context) {
 	parsedDate, err := time.Parse(dateLayout, dateString)
 
 	if err != nil {
-		log.Println("Error parse date: ", err)
-		context.String(http.StatusBadRequest, "invalid date")
+		log.Println("Error parse date:", err)
+		context.String(http.StatusBadRequest, "Invalid date")
 		return
 	}
 
@@ -58,13 +58,13 @@ func whenYearRouteHandler(context *gin.Context) {
 	if currentYear == yearAsInt && currentTime.Month() == parsedDate.Month() && currentTime.Day() == parsedDate.Day() {
 		context.String(http.StatusOK, "Today 1st january")
 	} else if currentYear < yearAsInt {
-		context.String(http.StatusOK, "Days left: "+IntToString(daysUntil))
+		context.String(http.StatusOK, "Days left: "+Float64ToString(daysUntil))
 	} else {
-		context.String(http.StatusOK, "Days gone: "+IntToString(math.Abs(daysPassed)))
+		context.String(http.StatusOK, "Days gone: "+Float64ToString(math.Abs(daysPassed)))
 	}
 
 }
 
-func IntToString(num float64) string {
+func Float64ToString(num float64) string {
 	return strconv.Itoa(int(num))
 }
