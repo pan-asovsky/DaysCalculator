@@ -8,35 +8,33 @@ import (
 	"testing"
 )
 
-func TestXPingHeaderMiddlewareSet(t *testing.T) {
+func TestXPingHeaderMiddleware(t *testing.T) {
 
 	gin.SetMode(gin.TestMode)
 
 	router := gin.New()
 	router.Use(internal.XPingHeaderMiddleware())
 
-	req, _ := http.NewRequest("GET", "/test", nil)
-	req.Header.Add("X-PING", "ping")
-	resp := httptest.NewRecorder()
-	router.ServeHTTP(resp, req)
+	t.Run("HeaderIsSet", func(t *testing.T) {
 
-	if resp.Header().Get("X-PONG") != "pong" {
-		t.Error("The expected X-PONG header should be set to 'pong'")
-	}
-}
+		req, _ := http.NewRequest("GET", "/test", nil)
+		req.Header.Add("X-PING", "ping")
+		resp := httptest.NewRecorder()
+		router.ServeHTTP(resp, req)
 
-func TestXPingHeaderMiddlewareUnset(t *testing.T) {
+		if resp.Header().Get("X-PONG") != "pong" {
+			t.Error("The expected X-PONG header should be set to 'pong'")
+		}
+	})
 
-	gin.SetMode(gin.TestMode)
+	t.Run("HeaderIsUnset", func(t *testing.T) {
 
-	router := gin.New()
-	router.Use(internal.XPingHeaderMiddleware())
+		req, _ := http.NewRequest("GET", "/test", nil)
+		resp := httptest.NewRecorder()
+		router.ServeHTTP(resp, req)
 
-	req, _ := http.NewRequest("GET", "/test", nil)
-	resp := httptest.NewRecorder()
-	router.ServeHTTP(resp, req)
-
-	if resp.Header().Get("X-PONG") == "pong" {
-		t.Error("The expected X-PONG header should not be set")
-	}
+		if resp.Header().Get("X-PONG") == "pong" {
+			t.Error("The expected X-PONG header should not be set")
+		}
+	})
 }
