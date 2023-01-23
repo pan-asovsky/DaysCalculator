@@ -1,16 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/pan-asovsky/DaysCalculator/internal"
+	in "github.com/pan-asovsky/DaysCalculator/internal"
 	"log"
 )
 
 func main() {
 
-	router := gin.Default()
-	router.Use(internal.XPingHeaderMiddleware())
-	router.GET("/when/:year", internal.WhenYearRouteHandler)
+	router := in.GetRouter()
 
 	err := router.Run()
 	if err != nil {

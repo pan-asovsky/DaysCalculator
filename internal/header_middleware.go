@@ -2,11 +2,11 @@ package internal
 
 import "github.com/gin-gonic/gin"
 
-var responseHeader = "X-PONG"
-var responseHeaderValue = "pong"
+const requestHeader = "X-PING"
+const requestHeaderValue = "ping"
 
-var requestHeader = "X-PING"
-var requestHeaderValue = "ping"
+const responseHeader = "X-PONG"
+const responseHeaderValue = "pong"
 
 func XPingHeaderMiddleware() gin.HandlerFunc {
 	return func(context *gin.Context) {
