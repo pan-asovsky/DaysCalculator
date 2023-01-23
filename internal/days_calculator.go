@@ -1,9 +1,9 @@
 package internal
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
-	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -31,19 +31,15 @@ func WhenYearRouteHandler(context *gin.Context) {
 	currentTime := time.Now()
 	currentYear := currentTime.Year()
 
-	daysUntil := parsedDate.Sub(currentTime).Hours() / 24
-	daysPassed := currentTime.Sub(parsedDate).Hours() / 24
+	daysUntil := int(parsedDate.Sub(currentTime).Hours() / 24)
+	daysPassed := int(currentTime.Sub(parsedDate).Hours() / 24)
 
 	if currentYear == yearAsInt && currentTime.Month() == parsedDate.Month() && currentTime.Day() == parsedDate.Day() {
 		context.String(http.StatusOK, "Today 1st january")
 	} else if currentYear < yearAsInt {
-		context.String(http.StatusOK, "Days left: "+float64ToString(daysUntil))
+		context.String(http.StatusOK, fmt.Sprintf("Days left: %d", daysUntil))
 	} else {
-		context.String(http.StatusOK, "Days gone: "+float64ToString(math.Abs(daysPassed)))
+		context.String(http.StatusOK, fmt.Sprintf("Days gone: %d", daysPassed))
 	}
 
-}
-
-func float64ToString(num float64) string {
-	return strconv.Itoa(int(num))
 }
