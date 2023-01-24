@@ -38,7 +38,6 @@ func TestGetDateFromString(t *testing.T) {
 }
 
 func TestGetDateDifference(t *testing.T) {
-
 	now := time.Now()
 	year := now.Year()
 	month := now.Month()

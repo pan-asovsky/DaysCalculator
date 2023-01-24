@@ -16,7 +16,6 @@ const sec = 0
 const nsec = 0
 
 func GetDateFromString(date string) (time.Time, error) {
-
 	receivedYear, err := conv.Atoi(date)
 	if err != nil {
 		log.Println("Error converting string to int:", err)
@@ -28,7 +27,6 @@ func GetDateFromString(date string) (time.Time, error) {
 }
 
 func GetDateDifference(receivedDate time.Time) string {
-
 	now := time.Now()
 	currentDay := now.Day()
 	currentMonth := now.Month()

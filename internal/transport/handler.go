@@ -7,7 +7,6 @@ import (
 )
 
 func WhenYearRouteHandler(context *gin.Context) {
-
 	year := context.Param("year")
 	receivedDate, err := services.GetDateFromString(year)
 	if err != nil {

@@ -12,7 +12,6 @@ import (
 )
 
 func TestWhenYearRouteHandler(t *testing.T) {
-
 	gin.SetMode(gin.TestMode)
 
 	router := gin.New()
