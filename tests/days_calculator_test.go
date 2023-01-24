@@ -3,7 +3,7 @@ package tests
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/assert/v2"
-	in "github.com/pan-asovsky/DaysCalculator/internal"
+	in "github.com/pan-asovsky/DaysCalculator/internal/transport"
 	"net/http"
 	"net/http/httptest"
 	conv "strconv"
@@ -23,7 +23,6 @@ func TestWhenYearRouteHandler(t *testing.T) {
 	regex := "\\w+ \\w+[:] \\d+"
 
 	t.Run("CurrentYear", func(t *testing.T) {
-
 		req, _ := http.NewRequest("GET", "/when/"+conv.Itoa(currentYear), nil)
 		resp := httptest.NewRecorder()
 		router.ServeHTTP(resp, req)
@@ -35,7 +34,6 @@ func TestWhenYearRouteHandler(t *testing.T) {
 	})
 
 	t.Run("FutureYear", func(t *testing.T) {
-
 		req, _ := http.NewRequest("GET", "/when/"+conv.Itoa(currentYear+1), nil)
 		resp := httptest.NewRecorder()
 		router.ServeHTTP(resp, req)
@@ -47,7 +45,6 @@ func TestWhenYearRouteHandler(t *testing.T) {
 	})
 
 	t.Run("PastYear", func(t *testing.T) {
-
 		req, _ := http.NewRequest("GET", "/when/"+conv.Itoa(currentYear-1), nil)
 		resp := httptest.NewRecorder()
 		router.ServeHTTP(resp, req)
@@ -59,7 +56,6 @@ func TestWhenYearRouteHandler(t *testing.T) {
 	})
 
 	t.Run("InvalidDate", func(t *testing.T) {
-
 		req, _ := http.NewRequest("GET", "/when/abc", nil)
 		resp := httptest.NewRecorder()
 		router.ServeHTTP(resp, req)
@@ -69,4 +65,5 @@ func TestWhenYearRouteHandler(t *testing.T) {
 			t.Errorf("Expected status code %d, received %d", http.StatusBadRequest, resp.Code)
 		}
 	})
+
 }

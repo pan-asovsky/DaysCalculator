@@ -1,4 +1,4 @@
-package internal
+package services
 
 import "github.com/gin-gonic/gin"
 
